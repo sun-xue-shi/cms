@@ -1,20 +1,20 @@
 <template>
   <div class="login">
-    <h2>login</h2>
+    <LoginPanel></LoginPanel>
   </div>
 </template>
 
 <script setup lang="ts">
-import MyRequest from '@/service'
-
-MyRequest.get({
-  url: '/home/multidata'
-}).then((res: any) => {
-  console.log(res)
-})
+import LoginPanel from '../login/cpns/login-panel.vue'
 </script>
 
-<style>
+<style scoped>
 .login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background-image: url('../../assets/img/login-bg.svg');
 }
 </style>

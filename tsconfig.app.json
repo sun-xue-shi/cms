@@ -4,9 +4,8 @@
     "env.d.ts",
     "src/**/*",
     "src/**/*.vue",
-    "src/**/*.ts",
-    "src/**/*.d.ts",
-    "src/**/*.tsx"
+    "auto-imports.d.ts",
+    "components.d.ts"
   ],
   "exclude": ["src/**/__tests__/*"],
   // "exclude": ["node_moudles"],
@@ -16,6 +15,7 @@
     "paths": {
       "@/*": ["./src/*"]
     },
-    "noImplicitAny": false
+    "noImplicitAny": false,
+    "moduleResolution": "node"
   }
 }
