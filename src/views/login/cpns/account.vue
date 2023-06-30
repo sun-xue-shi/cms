@@ -6,6 +6,7 @@
       label-width="60px"
       size="large"
       status-icon
+      ref="formRef"
     >
       <el-form-item label="帐号" prop="name">
         <el-input v-model="account.name" />
@@ -18,8 +19,11 @@
 </template>
 
 <script setup lang="ts">
-import type { FormRules } from 'element-plus'
-import { reactive } from 'vue'
+import type { FormRules, ElForm } from 'element-plus'
+import { ElMessage } from 'element-plus'
+import { reactive, ref } from 'vue'
+import { accountLogin } from '@/service/login/login'
+import useLoginStore from '@/store/login/login'
 
 const account = reactive({
   name: '',
@@ -41,8 +45,21 @@ const accountRules: FormRules = {
 }
 
 //登陆操作
+const formRef = ref<InstanceType<typeof ElForm>>()
+const loginStore = useLoginStore()
+
 function loginAction() {
-  console.log('6666')
+  formRef.value?.validate((valid) => {
+    if (valid) {
+      //获取账号和密码
+      const name = account.name
+      const password = account.password
+      //向服务器发送网络请求
+      loginStore.loginAccountAction({ name, password })
+    } else {
+      ElMessage.error('Oops, 请重新输入！')
+    }
+  })
 }
 
 defineExpose({

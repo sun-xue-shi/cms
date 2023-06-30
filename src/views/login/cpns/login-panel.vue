@@ -53,7 +53,7 @@ const accountRef = ref<InstanceType<typeof account>>()
 
 function loginBtnClick() {
   if (activeName.value === 'account') {
-    accountRef.value.loginAction()
+    accountRef.value?.loginAction()
   } else {
     console.log('6')
   }
