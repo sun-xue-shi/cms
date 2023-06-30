@@ -22,10 +22,11 @@
 import type { FormRules, ElForm } from 'element-plus'
 import { ElMessage } from 'element-plus'
 import { reactive, ref } from 'vue'
-import { accountLogin } from '@/service/login/login'
+// import { accountLogin } from '@/service/login/login'
 import useLoginStore from '@/store/login/login'
+import type { IAccount } from '@/types/'
 
-const account = reactive({
+const account = ref<IAccount>({
   name: '',
   password: ''
 })
@@ -52,8 +53,8 @@ function loginAction() {
   formRef.value?.validate((valid) => {
     if (valid) {
       //获取账号和密码
-      const name = account.name
-      const password = account.password
+      const name = account.value.name
+      const password = account.value.password
       //向服务器发送网络请求
       loginStore.loginAccountAction({ name, password })
     } else {
@@ -71,3 +72,4 @@ defineExpose({
 .account {
 }
 </style>
+../../../types/index
