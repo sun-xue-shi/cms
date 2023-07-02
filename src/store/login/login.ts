@@ -7,35 +7,37 @@ import {
 import type { IAccount } from '@/types/'
 import { localCache } from '@/utils/cache'
 import router from '@/router'
-import { LOGIN_TOKEN } from '@/global/const'
 
 interface ILoginState {
   token: string
   userInfo: any
-  userMenu: any
+  userMenu: any[]
 }
 const useLoginStore = defineStore('login', {
   state: (): ILoginState => ({
     userInfo: {},
     userMenu: [],
-    token: localCache.getCache(LOGIN_TOKEN) ?? ''
+    token: localCache.getCache('token') ?? ''
   }),
   actions: {
     async loginAccountAction(account: IAccount) {
       // 1.账号登陆，获取id等信息
       const loginData = await accountLogin(account)
-      const id = loginData.data.id
-      this.token = loginData.data.token
+
+      const id = loginData.data.data.id
+
+      this.token = loginData.data.data.token
 
       //2.本地缓存
-      // localCache.setCache(LOGIN_TOKEN, this.token)
+      localCache.setCache('token', this.token)
 
       //3.获取用户登陆信息
       const userLoginInfo = await getUserInfoById(id)
+
       this.userInfo = userLoginInfo.data
 
       //4.获取用户登陆信息
-      const userMenuInfo = await getUserMenuById(this.userInfo.role.id)
+      const userMenuInfo = await getUserMenuById(this.userInfo.data.role.id)
       this.userMenu = userMenuInfo.data
 
       //5.跳转到main页面

@@ -1,3 +1,4 @@
+import { localCache } from '@/utils/cache'
 import MyRequest from '..'
 import type { IAccount } from '@/types/'
 
@@ -10,12 +11,18 @@ export function accountLogin(account: IAccount) {
 
 export function getUserInfoById(id: number) {
   return MyRequest.get({
-    url: `/users${id}`
+    url: '/users/' + id,
+    headers: {
+      Authorization: localCache.getCache('token')
+    }
   })
 }
 
 export function getUserMenuById(id: number) {
   return MyRequest.get({
-    url: `/role/${id}/menu`
+    url: `/role/${id}/menu`,
+    headers: {
+      Authorization: localCache.getCache('token')
+    }
   })
 }
