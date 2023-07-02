@@ -1,3 +1,5 @@
+import { LOGIN_TOKEN } from '@/global/const'
+import { localCache } from '@/utils/cache'
 import { createRouter, createWebHashHistory } from 'vue-router'
 
 const router = createRouter({
@@ -22,5 +24,13 @@ const router = createRouter({
     }
   ]
 })
+
+// router.beforeEach((to) => {
+//   //路由守卫：登陆成功才能进入main页面
+//   const token = localCache.getCache(LOGIN_TOKEN)
+//   if (to.path === '/main' && !token) {
+//     return '/login'
+//   }
+// })
 
 export default router

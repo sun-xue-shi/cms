@@ -25,10 +25,11 @@ import { reactive, ref } from 'vue'
 // import { accountLogin } from '@/service/login/login'
 import useLoginStore from '@/store/login/login'
 import type { IAccount } from '@/types/'
+import { localCache } from '@/utils/cache'
 
 const account = ref<IAccount>({
-  name: '',
-  password: ''
+  name: localCache.getCache('name') ?? '',
+  password: localCache.getCache('password') ?? ''
 })
 
 //定义校验规则
@@ -49,14 +50,23 @@ const accountRules: FormRules = {
 const formRef = ref<InstanceType<typeof ElForm>>()
 const loginStore = useLoginStore()
 
-function loginAction() {
+function loginAction(isKeepWord: boolean) {
   formRef.value?.validate((valid) => {
     if (valid) {
       //获取账号和密码
       const name = account.value.name
       const password = account.value.password
       //向服务器发送网络请求
-      loginStore.loginAccountAction({ name, password })
+      loginStore.loginAccountAction({ name, password }).then(() => {
+        //记住密码
+        if (isKeepWord) {
+          localCache.setCache('name', name)
+          localCache.setCache('password', password)
+        } else {
+          localCache.removeCache('name')
+          localCache.removeCache('passsword')
+        }
+      })
     } else {
       ElMessage.error('Oops, 请重新输入！')
     }

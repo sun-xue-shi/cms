@@ -28,7 +28,7 @@
       </el-tabs>
     </div>
     <div class="controls">
-      <el-checkbox v-model="keepWord" label="记住密码" size="large" />
+      <el-checkbox v-model="isKeepWord" label="记住密码" size="large" />
       <el-link type="primary">忘记密码</el-link>
     </div>
     <el-button
@@ -46,14 +46,19 @@
 import { ref } from 'vue'
 import account from './account.vue'
 import phone from './phone.vue'
+import { watch } from 'vue'
+import { localCache } from '@/utils/cache'
 
-const keepWord = ref(false)
+const isKeepWord = ref<boolean>(localCache.getCache('isKeepWord') ?? false)
 const activeName = ref('account')
 const accountRef = ref<InstanceType<typeof account>>()
 
+watch(isKeepWord, (newValue) => {
+  localCache.setCache('isKeepWord', newValue)
+})
 function loginBtnClick() {
   if (activeName.value === 'account') {
-    accountRef.value?.loginAction()
+    accountRef.value?.loginAction(isKeepWord.value)
   } else {
     console.log('6')
   }
