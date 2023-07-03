@@ -21,7 +21,7 @@
 <script setup lang="ts">
 import type { FormRules, ElForm } from 'element-plus'
 import { ElMessage } from 'element-plus'
-import { reactive, ref } from 'vue'
+import { ref } from 'vue'
 // import { accountLogin } from '@/service/login/login'
 import useLoginStore from '@/store/login/login'
 import type { IAccount } from '@/types/'
@@ -52,13 +52,14 @@ const loginStore = useLoginStore()
 
 function loginAction(isKeepWord: boolean) {
   formRef.value?.validate((valid) => {
+    //表单有值
     if (valid) {
       //获取账号和密码
       const name = account.value.name
       const password = account.value.password
       //向服务器发送网络请求
       loginStore.loginAccountAction({ name, password }).then(() => {
-        //记住密码
+        //记住密码操作
         if (isKeepWord) {
           localCache.setCache('name', name)
           localCache.setCache('password', password)

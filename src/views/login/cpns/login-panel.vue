@@ -53,9 +53,12 @@ const isKeepWord = ref<boolean>(localCache.getCache('isKeepWord') ?? false)
 const activeName = ref('account')
 const accountRef = ref<InstanceType<typeof account>>()
 
+//监听isKeepWord的变化
 watch(isKeepWord, (newValue) => {
   localCache.setCache('isKeepWord', newValue)
 })
+
+//点击登录
 function loginBtnClick() {
   if (activeName.value === 'account') {
     accountRef.value?.loginAction(isKeepWord.value)

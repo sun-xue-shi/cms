@@ -15,6 +15,7 @@ class Cache {
       this.storge.setItem(key, JSON.stringify(value))
     }
   }
+
   getCache(key: string) {
     const value = this.storge.getItem(key)
     if (value) {
