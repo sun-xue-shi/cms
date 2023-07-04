@@ -1,41 +1,41 @@
 <template>
   <div class="main">
-    <el-container>
-      <el-aside width="210px"><MainMenu /></el-aside>
+    <el-container class="main-content">
+      <el-aside :width="isCollapse ? '60px' : '210px'">
+        <MainMenu :is-fold="isCollapse" />
+      </el-aside>
       <el-container>
-        <el-header height="50px"><MainHeader /></el-header>
-        <el-main>Main</el-main>
+        <el-header height="48px">
+          <MainHeader @fold-change="handleFoldChange" />
+        </el-header>
+        <el-main><RouterView></RouterView> </el-main>
       </el-container>
     </el-container>
-    <!-- <button @click="handleExitClick">退出</button> -->
   </div>
 </template>
 
 <script setup lang="ts">
 import MainMenu from '@/components/main-menu/main-menu.vue'
 import MainHeader from '@/components/main-header/main-header.vue'
+import { ref } from 'vue'
 
-// import { localCache } from '@/utils/cache'
-// import { useRouter } from 'vue-router'
+const isCollapse = ref(false)
 
-// const router = useRouter()
-// function handleExitClick() {
-//   //删除token
-//   // localCache.removeCache(LOGIN_TOKEN)
-//   //跳回login页面
-//   router.push('/login')
-// }
+function handleFoldChange(isFold: boolean) {
+  isCollapse.value = isFold
+}
 </script>
 
-<style>
+<style scoped lang="less">
 .main {
   width: 100%;
   height: 100%;
 
-  .el-container {
+  .main-content {
     height: 100%;
   }
   .el-aside {
+    transition: width 0.3s linear;
     &::-webkit-scrollbar {
       display: none;
     }

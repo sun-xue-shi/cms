@@ -7,6 +7,7 @@ import {
 import type { IAccount } from '@/types/'
 import { localCache } from '@/utils/cache'
 import router from '@/router'
+import type { RouteRecordRaw } from 'vue-router'
 
 interface ILoginState {
   token: string
@@ -44,7 +45,31 @@ const useLoginStore = defineStore('login', {
       localCache.setCache('userInfo', userInfo)
       localCache.setCache('userMenu', userMenu.data)
 
-      //6.跳转到main页面
+      //6.读取router/main中的所有ts文件
+      const files: Record<string, any> = import.meta.glob(
+        '../../router/main/**/*.ts',
+        {
+          eager: true
+        }
+      )
+
+      //7.将加载的对象添加到localRoutes
+      const localRoutes: RouteRecordRaw[] = []
+
+      for (const key in files) {
+        const moudle = files[key]
+        localRoutes.push(moudle.default)
+      }
+
+      //8.根据菜单匹配正确的路由
+      for (const menu of userMenu.data) {
+        for (const submenu of menu.children) {
+          const route = localRoutes.find((item) => item.path === submenu.url)
+          if (route) router.addRoute('main', route)
+        }
+      }
+
+      //9.跳转到main页面
       router.push('/main')
     }
   }

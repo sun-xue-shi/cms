@@ -2,10 +2,11 @@
   <div class="main-menu">
     <div class="logo">
       <img class="img" src="../../assets//img//logo.svg" alt="" />
-      <div class="title">ZILONG CMS</div>
+      <div v-show="!isFold" class="title">ZILONG CMS</div>
     </div>
     <div class="menu">
       <el-menu
+        :collapse="isFold"
         default-active="3"
         text-color="#b7bdc3"
         active-text-color="#fff"
@@ -21,7 +22,10 @@
               <span>{{ item.name }}</span>
             </template>
             <template v-for="subitem in item.children" :key="subitem.id">
-              <el-menu-item :index="subitem.id + ''">
+              <el-menu-item
+                :index="subitem.id + ''"
+                @click="handleItemClick(subitem)"
+              >
                 <template #title>
                   <span>{{ subitem.name }}</span>
                 </template>
@@ -36,9 +40,22 @@
 
 <script setup lang="ts">
 import useLoginStore from '../../store/login/login'
+import { useRouter } from 'vue-router'
 
 const loginStore = useLoginStore()
 const userMenu = loginStore.userMenu
+
+defineProps({
+  isFold: {
+    type: Boolean,
+    default: false
+  }
+})
+
+const router = useRouter()
+function handleItemClick(subitem: any) {
+  router.push(subitem.url)
+}
 </script>
 
 <style scoped>
@@ -56,7 +73,7 @@ const userMenu = loginStore.userMenu
 
   .img {
     height: 100%;
-    margin: 0 10px 0 15px;
+    margin: 0 10px 0 5px;
   }
 
   .title {
@@ -79,7 +96,7 @@ const userMenu = loginStore.userMenu
 
   .el-menu-item:hover {
     color: #fff;
-    background-color: #0a60bd;
+    background-color: #92b2d4;
   }
 
   .el-menu-item:focus {

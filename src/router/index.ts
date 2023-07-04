@@ -24,10 +24,19 @@ const router = createRouter({
   ]
 })
 
+// const localRoute = [
+//   {
+//     path: '/main/system/role',
+//     component: () => import('../views/main/system/role/role.vue')
+//   }
+// ]
+
+// router.addRoute('main', localRoute[0])
+
 router.beforeEach((to) => {
   //路由守卫：登陆成功才能进入main页面
   const token = localCache.getCache('token')
-  if (to.path === '/main' && !token) {
+  if (to.path.startsWith('/main') && !token) {
     return '/login'
   }
 })
