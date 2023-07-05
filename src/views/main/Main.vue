@@ -8,16 +8,17 @@
         <el-header height="48px">
           <MainHeader @fold-change="handleFoldChange" />
         </el-header>
-        <el-main><RouterView></RouterView> </el-main>
+        <el-main><router-view /> </el-main>
       </el-container>
     </el-container>
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" name="main">
 import MainMenu from '@/components/main-menu/main-menu.vue'
 import MainHeader from '@/components/main-header/main-header.vue'
 import { ref } from 'vue'
+import chat from './story/chat/chat.vue'
 
 const isCollapse = ref(false)
 

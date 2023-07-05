@@ -6,8 +6,7 @@ import {
 } from '@/service/login/login'
 import type { IAccount } from '@/types/'
 import { localCache } from '@/utils/cache'
-import router from '@/router'
-import type { RouteRecordRaw } from 'vue-router'
+import router, { addRoutesWithMenu } from '@/router'
 
 interface ILoginState {
   token: string
@@ -17,9 +16,9 @@ interface ILoginState {
 
 const useLoginStore = defineStore('login', {
   state: (): ILoginState => ({
-    userInfo: localCache.getCache('userInfo') ?? {},
-    userMenu: localCache.getCache('userMenu') ?? [],
-    token: localCache.getCache('token') ?? ''
+    userInfo: {},
+    userMenu: [],
+    token: ''
   }),
   actions: {
     async loginAccountAction(account: IAccount) {
@@ -45,32 +44,23 @@ const useLoginStore = defineStore('login', {
       localCache.setCache('userInfo', userInfo)
       localCache.setCache('userMenu', userMenu.data)
 
-      //6.读取router/main中的所有ts文件
-      const files: Record<string, any> = import.meta.glob(
-        '../../router/main/**/*.ts',
-        {
-          eager: true
-        }
-      )
-
-      //7.将加载的对象添加到localRoutes
-      const localRoutes: RouteRecordRaw[] = []
-
-      for (const key in files) {
-        const moudle = files[key]
-        localRoutes.push(moudle.default)
-      }
-
-      //8.根据菜单匹配正确的路由
-      for (const menu of userMenu.data) {
-        for (const submenu of menu.children) {
-          const route = localRoutes.find((item) => item.path === submenu.url)
-          if (route) router.addRoute('main', route)
-        }
-      }
-
-      //9.跳转到main页面
+      //6.动态添加路由
+      addRoutesWithMenu(this.userMenu)
+      //7.跳转到main页面
       router.push('/main')
+    },
+    loadLocalCacheAction() {
+      const token = localCache.getCache('token')
+      const userInfo = localCache.getCache('userInfo')
+      const userMenu = localCache.getCache('userMenu')
+      if (token && userInfo && userMenu) {
+        this.token = token
+        this.userInfo = userInfo
+        this.userMenu = userMenu
+
+        //动态添加路由
+        addRoutesWithMenu(this.userMenu)
+      }
     }
   }
 })

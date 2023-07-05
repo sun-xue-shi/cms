@@ -6,7 +6,7 @@
       </el-icon>
     </div>
     <div class="concent">
-      <div class="bread">面包屑</div>
+      <header-crumb />
       <header-info />
     </div>
   </div>
@@ -14,7 +14,6 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import HeaderInfo from './cpns/header-info.vue'
 
 //自定义事件
 const emit = defineEmits(['foldChange'])

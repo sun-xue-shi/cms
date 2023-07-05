@@ -1,4 +1,5 @@
 import { localCache } from '@/utils/cache'
+import { firstMenu, mapMenuToRoutes } from '@/utils/map-menus'
 import { createRouter, createWebHashHistory } from 'vue-router'
 
 const router = createRouter({
@@ -7,15 +8,17 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      redirect: 'main'
+      redirect: '/main'
     },
     {
       path: '/login',
-      component: () => import('../views/login/Login.vue')
+      name: '/login',
+      component: () => import('@/views/login/Login.vue')
     },
     {
       path: '/main',
-      component: () => import('../views/main/Main.vue')
+      name: 'main',
+      component: () => import('@/views/main/Main.vue')
     },
     {
       path: '/:pathMatch(.*)',
@@ -24,20 +27,22 @@ const router = createRouter({
   ]
 })
 
-// const localRoute = [
-//   {
-//     path: '/main/system/role',
-//     component: () => import('../views/main/system/role/role.vue')
-//   }
-// ]
+export function addRoutesWithMenu(menus: any) {
+  const routes = mapMenuToRoutes(menus)
 
-// router.addRoute('main', localRoute[0])
+  for (const route of routes) {
+    router.addRoute('main', route)
+  }
+}
 
 router.beforeEach((to) => {
-  //路由守卫：登陆成功才能进入main页面
+  //路由守卫：登陆成功(有token)才能进入main页面
   const token = localCache.getCache('token')
   if (to.path.startsWith('/main') && !token) {
     return '/login'
+  }
+  if (to.path === '/main') {
+    return firstMenu?.url
   }
 })
 

@@ -16,7 +16,7 @@
       <el-dropdown>
         <span class="user-info">
           <el-avatar :size="30" src="" />
-          <span class="name"> coderwhy</span>
+          <span class="name">sun zilong</span>
         </span>
         <template #dropdown>
           <el-dropdown-menu @click="handleExitClick">
@@ -46,8 +46,10 @@ import { useRouter } from 'vue-router'
 //退出登录
 const router = useRouter()
 function handleExitClick() {
-  //1.删除token
+  //1.删除相关信息
   localCache.removeCache('token')
+  localCache.removeCache('userInfo')
+  localCache.removeCache('userMenu')
   //2.跳回login页面
   router.push('/login')
 }

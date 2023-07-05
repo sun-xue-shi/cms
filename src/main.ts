@@ -4,11 +4,21 @@ import 'normalize.css'
 import './assets/css/index.less'
 import router from './router/index'
 import pinia from './store'
-import registerIcons from './global/register-icons'
+import icons from './global/register-icons'
 
 //按需引入样式
 import 'element-plus/theme-chalk/el-message.css'
+import useLoginStore from './store/login/login'
 
 //全局引入样式
 // import 'element-plus/dist/index.css'
-createApp(App).use(router).use(pinia).use(registerIcons).mount('#app')
+
+const app = createApp(App)
+app.use(icons)
+app.use(pinia)
+
+const LoginStore = useLoginStore()
+LoginStore.loadLocalCacheAction()
+
+app.use(router)
+app.mount('#app')

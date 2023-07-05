@@ -4,7 +4,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" name="login">
 import LoginPanel from '../login/cpns/login-panel.vue'
 </script>
 

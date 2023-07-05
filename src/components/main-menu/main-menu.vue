@@ -7,7 +7,7 @@
     <div class="menu">
       <el-menu
         :collapse="isFold"
-        default-active="3"
+        :default-active="defaultactive"
         text-color="#b7bdc3"
         active-text-color="#fff"
         background-color="#001529"
@@ -39,8 +39,10 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
 import useLoginStore from '../../store/login/login'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
+import { mapPathToMenu, firstMenu } from '@/utils/map-menus'
 
 const loginStore = useLoginStore()
 const userMenu = loginStore.userMenu
@@ -54,8 +56,14 @@ defineProps({
 
 const router = useRouter()
 function handleItemClick(subitem: any) {
-  router.push(subitem.url)
+  router.push({
+    path: subitem.url ?? '/not-found'
+  })
 }
+
+const route = useRoute()
+const pathMenu = mapPathToMenu(route.path, userMenu)
+const defaultactive = ref(pathMenu.id + '')
 </script>
 
 <style scoped>
