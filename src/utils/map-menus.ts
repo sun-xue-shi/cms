@@ -24,7 +24,7 @@ export function mapMenuToRoutes(userMenu: any[]) {
   //加载本地路由
   const localRoutes = loadLocalRoutes()
 
-  //8.根据菜单匹配正确的路由
+  //根据菜单匹配正确的路由
   const routes: RouteRecordRaw[] = []
   for (const menu of userMenu) {
     for (const submenu of menu.children) {

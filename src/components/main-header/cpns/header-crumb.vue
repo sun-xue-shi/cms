@@ -20,7 +20,4 @@ const breadCrumb = computed(() => {
   return mapPathToCrumb(route.path, userMenu)
 })
 </script>
-<style scoped lang="less">
-.header-crumb {
-}
-</style>
+<style scoped lang="less"></style>

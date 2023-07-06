@@ -41,5 +41,8 @@ function handleFoldChange(isFold: boolean) {
       display: none;
     }
   }
+  .el-header {
+    background-color: #fff;
+  }
 }
 </style>
