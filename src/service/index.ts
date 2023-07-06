@@ -8,10 +8,19 @@ const MyRequest = new myRequest({
   // interceptors: {
   //   requestSuccessFn: (config) => {
   //     const token = localCache.getCache('token')
-  //     if (config.headers && token) {
-  //       config.headers.Authorization = 'Bearer' + token
+  //     if (token && config.headers) {
+  //       config.headers.Authorization = `Bearer ${token}`
   //     }
   //     return config
+  //   },
+  //   requestFailureFn: (err) => {
+  //     return err
+  //   },
+  //   responseSuccessFn: (res) => {
+  //     return res
+  //   },
+  //   responseFailureFn: (err) => {
+  //     return err
   //   }
   // }
 })

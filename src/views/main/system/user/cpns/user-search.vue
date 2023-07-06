@@ -62,13 +62,14 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { type ElForm } from 'element-plus'
+import { reactive } from 'vue'
 
 const emit = defineEmits(['queryClick', 'resetClick'])
-const searchForm = ref({
+const searchForm = reactive({
   name: '',
   realname: '',
   cellphone: '',
-  enable: 1,
+  enable: '',
   creatAt: ''
 })
 

@@ -99,15 +99,17 @@ const { userList, userTotalCount } = storeToRefs(systemStore)
 function handleSizeChange() {
   fetchUserListData()
 }
+
 function handleCurrentChange() {
   fetchUserListData()
 }
-function fetchUserListData(formInfo: any = {}) {
+
+function fetchUserListData(formData: any = {}) {
   const size = pageSize.value
   const offset = (currentPage.value - 1) * size
   const pageInfo = { size, offset }
+  const queryInfo = { ...pageInfo, ...formData }
 
-  const queryInfo = { ...pageInfo, ...formInfo }
   systemStore.postUserListAction(queryInfo)
 }
 
