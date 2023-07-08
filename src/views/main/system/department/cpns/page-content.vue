@@ -1,11 +1,11 @@
 <template>
   <div class="content">
     <div class="header">
-      <h3 class="title">用户列表</h3>
-      <el-button type="primary" @click="handleNewUserClick">新建用户</el-button>
+      <h3 class="title">部门列表</h3>
+      <el-button type="primary" @click="handleNewUserClick">新建部门</el-button>
     </div>
     <div class="table">
-      <el-table :data="userList" border style="width: 100%">
+      <el-table :data="pageList" border style="width: 100%">
         <el-table-column type="selection" />
         <el-table-column
           align="center"
@@ -16,37 +16,21 @@
         <el-table-column
           align="center"
           prop="name"
-          label="用户名"
+          label="部门"
           width="150px"
         />
         <el-table-column
           align="center"
-          prop="realname"
-          label="真实姓名"
+          prop="leader"
+          label="部门主管"
           width="150px"
         />
         <el-table-column
           align="center"
-          prop="cellphone"
-          label="手机号码"
+          prop="parentId"
+          label="上级部门"
           width="150px"
         />
-        <el-table-column
-          align="center"
-          prop="enable"
-          label="状态"
-          width="100px"
-        >
-          <template #default="scope">
-            <el-button
-              :type="scope.row.enable ? 'primary' : 'danger'"
-              size="small"
-              plain
-            >
-              {{ scope.row.enable ? '启用' : '禁用' }}
-            </el-button>
-          </template>
-        </el-table-column>
         <el-table-column align="center" prop="createAt" label="创建时间">
           <template #default="scope">
             {{ formatUTC(scope.row.createAt) }}
@@ -87,7 +71,7 @@
       :page-sizes="[10, 20, 30]"
       size="small"
       layout="sizes, prev, pager, next, jumper,total"
-      :total="userTotalCount"
+      :total="pageTotalCount"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
     />
@@ -104,34 +88,34 @@ import { ref } from 'vue'
 const currentPage = ref(1)
 const pageSize = ref(10)
 const systemStore = useSystemStore()
-fetchUserListData()
-//获取并展示userlist数据(storeToRefs响应处理)
-const { userList, userTotalCount } = storeToRefs(systemStore)
+fetchPageListData()
+//获取并展示pagelist数据(storeToRefs响应处理)
+const { pageList, pageTotalCount } = storeToRefs(systemStore)
 
 //分页器相关逻辑
 function handleSizeChange() {
-  fetchUserListData()
+  fetchPageListData()
 }
 
 function handleCurrentChange() {
-  fetchUserListData()
+  fetchPageListData()
 }
 
 //发送网络请求使list变化
-function fetchUserListData(searchForm: any = {}) {
+function fetchPageListData(searchForm: any = {}) {
   const size = pageSize.value
   const offset = (currentPage.value - 1) * size
   const pageInfo = { size, offset }
   const queryInfo = { ...pageInfo, ...searchForm }
 
-  systemStore.postUserListAction(queryInfo)
+  systemStore.postPageListAction('department', queryInfo)
 }
 
-defineExpose({ fetchUserListData })
+defineExpose({ fetchPageListData })
 
 //删除操作
 function handleDeleteClick(id: number) {
-  systemStore.deleteUserByIdAction(id)
+  systemStore.deletePageByIdAction('department', id)
 }
 
 //新建/编辑用户操作

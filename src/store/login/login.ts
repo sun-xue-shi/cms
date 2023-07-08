@@ -7,6 +7,7 @@ import {
 import type { IAccount } from '@/types/'
 import { localCache } from '@/utils/cache'
 import router, { addRoutesWithMenu } from '@/router'
+import useMainStore from '../main/main'
 
 interface ILoginState {
   token: string
@@ -44,9 +45,14 @@ const useLoginStore = defineStore('login', {
       localCache.setCache('userInfo', userInfo)
       localCache.setCache('userMenu', userMenu.data)
 
-      //6.动态添加路由
+      //6.请求所有role/department数据
+      const mainStore = useMainStore()
+      mainStore.fetchEntireDataAction()
+
+      //7.动态添加路由
       addRoutesWithMenu(this.userMenu)
-      //7.跳转到main页面
+
+      //8.跳转到main页面
       router.push('/main')
     },
     loadLocalCacheAction() {
@@ -57,6 +63,10 @@ const useLoginStore = defineStore('login', {
         this.token = token
         this.userInfo = userInfo
         this.userMenu = userMenu
+
+        //请求所有role/department数据
+        const mainStore = useMainStore()
+        mainStore.fetchEntireDataAction()
 
         //动态添加路由
         addRoutesWithMenu(this.userMenu)

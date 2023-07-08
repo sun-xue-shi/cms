@@ -40,7 +40,7 @@
 </template>
 
 <script setup lang="ts">
-import { localCache } from '../../../utils/cache'
+import { localCache } from '@/utils/cache'
 import { useRouter } from 'vue-router'
 
 //退出登录

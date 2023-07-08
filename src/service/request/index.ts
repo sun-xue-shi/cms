@@ -1,6 +1,7 @@
 import axios from 'axios'
 import type { AxiosInstance } from 'axios'
-import { type myRequestConfig } from './type'
+import type { myRequestConfig } from './type'
+import { localCache } from '@/utils/cache'
 
 class myRequest {
   instance: AxiosInstance
@@ -11,6 +12,11 @@ class myRequest {
     //每个instance实例都添加拦截器
     this.instance.interceptors.request.use(
       (config) => {
+        config.headers = config.headers || {}
+        const token = localCache.getCache('token')
+        if (token) {
+          config.headers['Authorization'] = token
+        }
         return config
       },
       (err) => {
@@ -19,7 +25,7 @@ class myRequest {
     )
     this.instance.interceptors.response.use(
       (res) => {
-        return res
+        return res.data
       },
       (err) => {
         return err
