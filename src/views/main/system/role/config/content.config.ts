@@ -23,13 +23,7 @@ const contentConfig = {
     {
       type: 'normal',
       label: '角色权限',
-      prop: 'leader',
-      width: '120px'
-    },
-    {
-      type: 'normal',
-      label: '上级部门',
-      prop: 'parentId',
+      prop: 'intro',
       width: '120px'
     },
     {
@@ -46,21 +40,21 @@ const contentConfig = {
       type: 'handle',
       label: '操作',
       width: '150px'
-    },
-    {
-      type: 'custom',
-      label: '上级部门',
-      prop: 'parentId',
-      width: '120px',
-      slotName: 'parent'
-    },
-    {
-      type: 'custom',
-      label: '部门主管',
-      prop: 'leader',
-      width: '120px',
-      slotName: 'leader'
     }
+    // {
+    //   type: 'custom',
+    //   label: '上级部门',
+    //   prop: 'parentId',
+    //   width: '120px',
+    //   slotName: 'parent'
+    // },
+    // {
+    //   type: 'custom',
+    //   label: '部门主管',
+    //   prop: 'leader',
+    //   width: '120px',
+    //   slotName: 'leader'
+    // }
   ]
 }
 
