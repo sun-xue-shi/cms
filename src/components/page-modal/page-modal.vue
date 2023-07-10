@@ -32,7 +32,10 @@
                   :placeholder="item.placeholder"
                   style="width: 100%"
                 >
-                  <template v-for="options in item.option" :key="options.value">
+                  <template
+                    v-for="options in item.options"
+                    :key="options.value"
+                  >
                     <el-option :label="options.label" :value="options.value" />
                   </template>
                 </el-select>
@@ -59,6 +62,7 @@ import useSystemStore from '@/store/main/system/system'
 
 interface Iprops {
   modalConfig: {
+    pageName: string
     header: {
       newTitle: string
       editTitle: string
@@ -84,9 +88,13 @@ function handleConfirmClick() {
   //关闭模态框
   centerDialogVisible.value = false
   if (!isNewRef.value && editData.value) {
-    systemStore.editPageDataAction('department', editData.value.id, formData)
+    systemStore.editPageDataAction(
+      props.modalConfig.pageName,
+      editData.value.id,
+      formData
+    )
   } else {
-    systemStore.newPageDataAction('department', formData)
+    systemStore.newPageDataAction(props.modalConfig.pageName, formData)
   }
 }
 

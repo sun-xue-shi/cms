@@ -28,37 +28,27 @@ import searchConfig from './config/search.config'
 import contentConfig from './config/content.config'
 import modalConfig from './config/modal.config'
 import useMainStore from '@/store/main/main'
+import usePageModal from '@/hooks/usePageModal'
+import usePageContent from '@/hooks/usePageContent'
 
 const modalConfigRef = computed(() => {
   const mainStore = useMainStore()
   const departments = mainStore.entireDepartments.map((item) => {
     return { label: item.name, value: item.id }
   })
-  console.log(departments)
-
   modalConfig.formItems.forEach((item) => {
     if (item.prop === 'parentId') {
-      item.options?.push(departments)
+      item.options = departments as any
     }
   })
   return modalConfig
 })
-const contentRef = ref<InstanceType<typeof pageContent>>()
-function handleQueryClick(queryInfo: any) {
-  contentRef.value?.fetchPageListData(queryInfo)
-}
-function handleResetClick() {
-  contentRef.value?.fetchPageListData()
-}
 
-const modalRef = ref<InstanceType<typeof pageModal>>()
-function handleEditBtnClick(itemData: any) {
-  modalRef.value?.setModalVisible(false, itemData)
-}
+//hook => usePageContent
+const { contentRef, handleQueryClick, handleResetClick } = usePageContent()
 
-function handleNewUserClick() {
-  modalRef.value?.setModalVisible()
-}
+//hook => usemodalContent
+const { modalRef, handleEditBtnClick, handleNewUserClick } = usePageModal()
 </script>
 
 <style scoped>
