@@ -15,10 +15,10 @@
             <el-input v-model="formData.leader" placeholder="请输入部门主管" />
           </el-form-item>
 
-          <el-form-item prop="parentId" label="选择部门">
+          <el-form-item prop="parentId" label="上级部门">
             <el-select
               v-model="formData.parentId"
-              placeholder="请选择部门"
+              placeholder="请选择上级部门"
               style="width: 100%"
             >
               <template v-for="item in entireDepartments" :key="item.id">
