@@ -2,12 +2,12 @@
   <div class="content">
     <div class="header">
       <h3 class="title">{{ contentConfig.header?.title }}</h3>
-      <el-button type="primary" @click="handleNewUserClick">
+      <el-button v-if="isCreate" type="primary" @click="handleNewUserClick">
         {{ contentConfig.header?.btnTitle }}
       </el-button>
     </div>
     <div class="table">
-      <el-table :data="pageList" border style="width: 100%">
+      <el-table :data="pageList" border style="width: 100%" v-bind="contentConfig.childrenTree">
         <template v-for="item in contentConfig.contentItem" :key="item.prop">
           <template v-if="item.type === 'timer'">
             <el-table-column align="center" v-bind="item">
@@ -33,6 +33,7 @@
                   type="primary"
                   icon="Edit"
                   @click="handleEditBtnClick(scope.row)"
+                  v-if="isUpdate"
                 >
                   编辑
                 </el-button>
@@ -42,6 +43,7 @@
                   type="danger"
                   icon="Delete"
                   @click="handleDeleteClick(scope.row.id)"
+                  v-if="isDelete"
                 >
                   删除
                 </el-button>
@@ -62,8 +64,8 @@
       size="small"
       layout="sizes, prev, pager, next, jumper,total"
       :total="pageTotalCount"
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
+      @update:page-size="handleSizeChange"
+      @update:current-page="handleCurrentChange"
     />
   </div>
 </template>
@@ -73,6 +75,8 @@ import useSystemStore from '@/store/main/system/system'
 import { storeToRefs } from 'pinia'
 import { formatUTC } from '@/utils/format'
 import { ref } from 'vue'
+import useLoginStore from '@/store/login/login'
+import usePermissions from '@/hooks/usePermissions'
 
 interface IProps {
   contentConfig: {
@@ -82,14 +86,33 @@ interface IProps {
       btnTitle?: string
     }
     contentItem: any[]
+    childrenTree?: {}
   }
 }
 const props = defineProps<IProps>()
+
+//获取是否有对应的增删改查权限
+const isCreate = usePermissions(`${props.contentConfig.pageName}:create`)
+const isDelete = usePermissions(`${props.contentConfig.pageName}:delete`)
+const isUpdate = usePermissions(`${props.contentConfig.pageName}:update`)
+const isQuery = usePermissions(`${props.contentConfig.pageName}:query`)
 
 //请求userlist数据
 const currentPage = ref(1)
 const pageSize = ref(10)
 const systemStore = useSystemStore()
+//监听systemStore中的action执行
+systemStore.$onAction(({ name, after }) => {
+  after(() => {
+    if (
+      name === 'deletePageByIdAction' ||
+      name === 'editPageDataAction' ||
+      name === 'newPageDataAction'
+    ) {
+      currentPage.value = 1
+    }
+  })
+})
 fetchPageListData()
 //获取并展示pagelist数据(storeToRefs响应处理)
 const { pageList, pageTotalCount } = storeToRefs(systemStore)
@@ -105,6 +128,8 @@ function handleCurrentChange() {
 
 //发送网络请求使list变化
 function fetchPageListData(searchForm: any = {}) {
+  // if (!isQuery) return
+
   const size = pageSize.value
   const offset = (currentPage.value - 1) * size
   const pageInfo = { size, offset }

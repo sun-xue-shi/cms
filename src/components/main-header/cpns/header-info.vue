@@ -16,7 +16,7 @@
       <el-dropdown>
         <span class="user-info">
           <el-avatar :size="30" src="" />
-          <span class="name">sun zilong</span>
+          <span class="name">{{ loginStore.userInfo.name }}</span>
         </span>
         <template #dropdown>
           <el-dropdown-menu @click="handleExitClick">
@@ -40,6 +40,7 @@
 </template>
 
 <script setup lang="ts">
+import useLoginStore from '@/store/login/login'
 import { localCache } from '@/utils/cache'
 import { useRouter } from 'vue-router'
 
@@ -53,6 +54,8 @@ function handleExitClick() {
   //2.跳回login页面
   router.push('/login')
 }
+
+const loginStore = useLoginStore()
 </script>
 <style scoped lang="less">
 .header-info {

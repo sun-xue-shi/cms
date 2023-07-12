@@ -2,9 +2,7 @@
   <div class="user-modal">
     <el-dialog
       v-model="centerDialogVisible"
-      :title="
-        isNewRef ? modalConfig.header.newTitle : modalConfig.header.editTitle
-      "
+      :title="isNewRef ? modalConfig.header.newTitle : modalConfig.header.editTitle"
       width="30%"
       center
     >
@@ -13,10 +11,7 @@
           <template v-for="item in modalConfig.formItems" :key="item.prop">
             <el-form-item :label="item.label" :prop="item.prop">
               <template v-if="item.type === 'input'">
-                <el-input
-                  v-model="formData[item.prop]"
-                  :placeholder="item.placeholder"
-                />
+                <el-input v-model="formData[item.prop]" :placeholder="item.placeholder" />
               </template>
               <template v-if="item.type === 'date-picker'">
                 <el-date-picker
@@ -32,13 +27,14 @@
                   :placeholder="item.placeholder"
                   style="width: 100%"
                 >
-                  <template
-                    v-for="options in item.options"
-                    :key="options.value"
-                  >
+                  <template v-for="options in item.options" :key="options.value">
                     <el-option :label="options.label" :value="options.value" />
                   </template>
                 </el-select>
+              </template>
+              <template v-if="item.type === 'custom'">
+                <!-- 插槽 => 定制化 -->
+                <slot :name="item.slotName"></slot>
               </template>
             </el-form-item>
           </template>
@@ -47,9 +43,7 @@
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="centerDialogVisible = false">取消</el-button>
-          <el-button type="primary" @click="handleConfirmClick">
-            确定
-          </el-button>
+          <el-button type="primary" @click="handleConfirmClick"> 确定 </el-button>
         </span>
       </template>
     </el-dialog>
@@ -69,6 +63,7 @@ interface Iprops {
     }
     formItems: any[]
   }
+  otherInfo?: any
 }
 
 const props = defineProps<Iprops>()
@@ -87,22 +82,24 @@ const systemStore = useSystemStore()
 function handleConfirmClick() {
   //关闭模态框
   centerDialogVisible.value = false
+
+  let infoData = formData
+  if (props.otherInfo) {
+    infoData = { ...infoData, ...props.otherInfo }
+  }
   if (!isNewRef.value && editData.value) {
-    systemStore.editPageDataAction(
-      props.modalConfig.pageName,
-      editData.value.id,
-      formData
-    )
+    systemStore.editPageDataAction(props.modalConfig.pageName, editData.value.id, infoData)
   } else {
-    systemStore.newPageDataAction(props.modalConfig.pageName, formData)
+    systemStore.newPageDataAction(props.modalConfig.pageName, infoData)
   }
 }
 
-//模态框是否展示
+//模态框展示和是否有回显数据
 const centerDialogVisible = ref(false)
 function setModalVisible(isNew: boolean = true, itemData?: any) {
   centerDialogVisible.value = true
   isNewRef.value = isNew
+  //编辑
   if (!isNew && itemData) {
     for (const key in formData) {
       formData[key] = itemData[key]

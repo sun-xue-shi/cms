@@ -16,11 +16,7 @@
           </el-form-item>
 
           <el-form-item prop="parentId" label="上级部门">
-            <el-select
-              v-model="formData.parentId"
-              placeholder="请选择上级部门"
-              style="width: 100%"
-            >
+            <el-select v-model="formData.parentId" placeholder="请选择上级部门" style="width: 100%">
               <template v-for="item in entireDepartments" :key="item.id">
                 <el-option :value="item.id" :label="item.name"> </el-option>
               </template>
@@ -31,9 +27,7 @@
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="centerDialogVisible = false">取消</el-button>
-          <el-button type="primary" @click="handleConfirmClick">
-            确定
-          </el-button>
+          <el-button type="primary" @click="handleConfirmClick"> 确定 </el-button>
         </span>
       </template>
     </el-dialog>

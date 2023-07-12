@@ -7,30 +7,10 @@
     <div class="table">
       <el-table :data="pageList" border style="width: 100%">
         <el-table-column type="selection" />
-        <el-table-column
-          align="center"
-          type="index"
-          label="序号"
-          width="60px"
-        />
-        <el-table-column
-          align="center"
-          prop="name"
-          label="部门"
-          width="150px"
-        />
-        <el-table-column
-          align="center"
-          prop="leader"
-          label="部门主管"
-          width="150px"
-        />
-        <el-table-column
-          align="center"
-          prop="parentId"
-          label="上级部门"
-          width="150px"
-        />
+        <el-table-column align="center" type="index" label="序号" width="60px" />
+        <el-table-column align="center" prop="name" label="部门" width="150px" />
+        <el-table-column align="center" prop="leader" label="部门主管" width="150px" />
+        <el-table-column align="center" prop="parentId" label="上级部门" width="150px" />
         <el-table-column align="center" prop="createAt" label="创建时间">
           <template #default="scope">
             {{ formatUTC(scope.row.createAt) }}

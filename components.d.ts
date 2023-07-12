@@ -7,6 +7,9 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    BarEchart: typeof import('./src/components/echarts/src/bar-echart.vue')['default']
+    BaseEcharts: typeof import('./src/components/echarts/src/base-echarts.vue')['default']
+    BingEchart: typeof import('./src/components/echarts/src/bing-echart.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElAvatar: typeof import('element-plus/es')['ElAvatar']
     ElBreadcrumb: typeof import('element-plus/es')['ElBreadcrumb']
@@ -31,7 +34,6 @@ declare module 'vue' {
     ElLink: typeof import('element-plus/es')['ElLink']
     ElMain: typeof import('element-plus/es')['ElMain']
     ElMenu: typeof import('element-plus/es')['ElMenu']
-    'ElMenu-': typeof import('element-plus/es')['ElMenu-']
     ElMenuItem: typeof import('element-plus/es')['ElMenuItem']
     ElMenuItemGroup: typeof import('element-plus/es')['ElMenuItemGroup']
     ElOption: typeof import('element-plus/es')['ElOption']
@@ -44,10 +46,15 @@ declare module 'vue' {
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
     ElTabPane: typeof import('element-plus/es')['ElTabPane']
     ElTabs: typeof import('element-plus/es')['ElTabs']
+    ElTooltip: typeof import('element-plus/es')['ElTooltip']
+    ElTree: typeof import('element-plus/es')['ElTree']
+    FlowerEchart: typeof import('./src/components/echarts/src/flower-echart.vue')['default']
     HeaderCrumb: typeof import('./src/components/main-header/cpns/header-crumb.vue')['default']
     HeaderInfo: typeof import('./src/components/main-header/cpns/header-info.vue')['default']
+    LineEchart: typeof import('./src/components/echarts/src/line-echart.vue')['default']
     MainHeader: typeof import('./src/components/main-header/main-header.vue')['default']
     MainMenu: typeof import('./src/components/main-menu/main-menu.vue')['default']
+    MapEchart: typeof import('./src/components/echarts/src/map-echart.vue')['default']
     PageContent: typeof import('./src/components/page-content/page-content.vue')['default']
     PageModal: typeof import('./src/components/page-modal/page-modal.vue')['default']
     PageSearch: typeof import('./src/components/page-search/page-search.vue')['default']

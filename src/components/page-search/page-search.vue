@@ -1,15 +1,12 @@
 <template>
-  <div class="user-search">
+  <div class="user-search" v-if="isQuery">
     <el-form label-width="80px" ref="formRef" size="large" :model="searchForm">
       <el-row :gutter="20">
         <template v-for="item in searchConfig.formItem" :key="item.prop">
           <el-col :span="8">
             <el-form-item :label="item.label" :prop="item.prop">
               <template v-if="item.type === 'input'">
-                <el-input
-                  v-model="searchForm[item.prop]"
-                  :placeholder="item.placeholder"
-                />
+                <el-input v-model="searchForm[item.prop]" :placeholder="item.placeholder" />
               </template>
               <template v-if="item.type === 'date-picker'">
                 <el-date-picker
@@ -38,9 +35,7 @@
 
     <div class="btns">
       <el-button icon="Refresh" @click="handleResetClick">重置</el-button>
-      <el-button type="primary" icon="Search" @click="handleQueryClick">
-        查询
-      </el-button>
+      <el-button type="primary" icon="Search" @click="handleQueryClick"> 查询 </el-button>
     </div>
   </div>
 </template>
@@ -49,9 +44,13 @@
 import { ref } from 'vue'
 import { type ElForm } from 'element-plus'
 import { reactive } from 'vue'
+import usePermissions from '@/hooks/usePermissions'
 
 interface IProps {
-  searchConfig: { formItem: any[] }
+  searchConfig: {
+    pageName: string
+    formItem: any[]
+  }
 }
 
 const props = defineProps<IProps>()
@@ -61,6 +60,7 @@ for (const item of props.searchConfig.formItem) {
 }
 const searchForm = reactive(initialForm)
 
+const isQuery = usePermissions(`${props.searchConfig.pageName}:query`)
 //重置操作
 const formRef = ref<InstanceType<typeof ElForm>>()
 const emit = defineEmits(['queryClick', 'resetClick'])

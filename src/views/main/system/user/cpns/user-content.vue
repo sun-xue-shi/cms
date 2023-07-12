@@ -2,47 +2,18 @@
   <div class="content">
     <div class="header">
       <h3 class="title">用户列表</h3>
-      <el-button type="primary" @click="handleNewUserClick">新建用户</el-button>
+      <el-button v-if="isCreate" type="primary" @click="handleNewUserClick">新建用户</el-button>
     </div>
     <div class="table">
       <el-table :data="userList" border style="width: 100%">
         <el-table-column type="selection" />
-        <el-table-column
-          align="center"
-          type="index"
-          label="序号"
-          width="60px"
-        />
-        <el-table-column
-          align="center"
-          prop="name"
-          label="用户名"
-          width="150px"
-        />
-        <el-table-column
-          align="center"
-          prop="realname"
-          label="真实姓名"
-          width="150px"
-        />
-        <el-table-column
-          align="center"
-          prop="cellphone"
-          label="手机号码"
-          width="150px"
-        />
-        <el-table-column
-          align="center"
-          prop="enable"
-          label="状态"
-          width="100px"
-        >
+        <el-table-column align="center" type="index" label="序号" width="60px" />
+        <el-table-column align="center" prop="name" label="用户名" width="150px" />
+        <el-table-column align="center" prop="realname" label="真实姓名" width="150px" />
+        <el-table-column align="center" prop="cellphone" label="手机号码" width="150px" />
+        <el-table-column align="center" prop="enable" label="状态" width="100px">
           <template #default="scope">
-            <el-button
-              :type="scope.row.enable ? 'primary' : 'danger'"
-              size="small"
-              plain
-            >
+            <el-button :type="scope.row.enable ? 'primary' : 'danger'" size="small" plain>
               {{ scope.row.enable ? '启用' : '禁用' }}
             </el-button>
           </template>
@@ -65,6 +36,7 @@
               type="primary"
               icon="Edit"
               @click="handleEditBtnClick(scope.row)"
+              v-if="isUpdate"
             >
               编辑
             </el-button>
@@ -74,6 +46,7 @@
               type="danger"
               icon="Delete"
               @click="handleDeleteClick(scope.row.id)"
+              v-if="isDelete"
             >
               删除
             </el-button>
@@ -99,6 +72,12 @@ import useSystemStore from '@/store/main/system/system'
 import { storeToRefs } from 'pinia'
 import { formatUTC } from '@/utils/format'
 import { ref } from 'vue'
+import usePermissions from '@/hooks/usePermissions'
+
+const isCreate = usePermissions('user:create')
+const isDelete = usePermissions('user:delete')
+const isUpdate = usePermissions('user:update')
+const isQuery = usePermissions('user:query')
 
 //请求userlist数据
 const currentPage = ref(1)
@@ -119,6 +98,8 @@ function handleCurrentChange() {
 
 //发送网络请求使list变化
 function fetchUserListData(searchForm: any = {}) {
+  // if (!isQuery) return
+
   const size = pageSize.value
   const offset = (currentPage.value - 1) * size
   const pageInfo = { size, offset }

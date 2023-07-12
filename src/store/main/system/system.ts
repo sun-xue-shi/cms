@@ -9,6 +9,8 @@ import {
   editPageData
 } from '@/service/main/system'
 import { defineStore } from 'pinia'
+import { nextTick } from 'vue'
+import useMainStore from '../main'
 
 export interface IUser {
   id: number
@@ -38,7 +40,7 @@ const useSystemStore = defineStore('system', {
   actions: {
     async postUserListAction(queryInfo: any) {
       const userListData = await postUserListData(queryInfo)
-      console.log(userListData)
+
       const { list, totalCount } = userListData.data
       this.userList = list
       this.userTotalCount = totalCount
@@ -56,6 +58,10 @@ const useSystemStore = defineStore('system', {
 
       //请求新的数据
       this.postUserListAction({ offset: 0, size: 10 })
+
+      //创建后获取完整数据
+      const mainStore = useMainStore()
+      mainStore.fetchEntireDataAction()
     },
     async editUserDataAction(id: number, userInfo: any) {
       //编辑用户
@@ -63,19 +69,17 @@ const useSystemStore = defineStore('system', {
 
       //请求新的数据
       this.postUserListAction({ offset: 0, size: 10 })
+
+      //编辑后获取完整数据
+      const mainStore = useMainStore()
+      mainStore.fetchEntireDataAction()
     },
     //页面的action
     async postPageListAction(pageName: string, queryInfo: any) {
       const pageListData = await postPageListData(pageName, queryInfo)
-
-      const totalCount = pageListData.data.totalCount
-      const list = pageListData.data.list
-
-      console.log(totalCount)
-      console.log(list)
-
-      this.pageTotalCount = totalCount
+      const { list, totalCount } = pageListData.data
       this.pageList = list
+      this.pageTotalCount = totalCount
     },
     async deletePageByIdAction(pageName: string, id: number) {
       //删除数据
@@ -90,6 +94,10 @@ const useSystemStore = defineStore('system', {
 
       //请求新的数据
       this.postPageListAction(pageName, { offset: 0, size: 10 })
+
+      //创建后获取完整数据
+      const mainStore = useMainStore()
+      mainStore.fetchEntireDataAction()
     },
     async editPageDataAction(pageName: string, id: number, pageInfo: any) {
       //编辑用户
@@ -97,6 +105,10 @@ const useSystemStore = defineStore('system', {
 
       //请求新的数据
       this.postPageListAction(pageName, { offset: 0, size: 10 })
+
+      //编辑后获取完整数据
+      const mainStore = useMainStore()
+      mainStore.fetchEntireDataAction()
     }
   }
 })

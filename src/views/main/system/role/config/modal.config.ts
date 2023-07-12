@@ -17,6 +17,10 @@ const modalConfig = {
       type: 'input',
       label: '角色权限',
       placeholder: '请输入角色权限'
+    },
+    {
+      type: 'custom',
+      slotName: 'menuList'
     }
   ]
 }

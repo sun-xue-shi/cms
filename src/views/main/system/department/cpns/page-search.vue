@@ -4,18 +4,12 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="部门名称" prop="name">
-            <el-input
-              v-model="searchForm.name"
-              placeholder="请输入部门名称"
-            ></el-input>
+            <el-input v-model="searchForm.name" placeholder="请输入部门名称"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="部门主管" prop="leader">
-            <el-input
-              v-model="searchForm.leader"
-              placeholder="请输入部门主管"
-            ></el-input>
+            <el-input v-model="searchForm.leader" placeholder="请输入部门主管"></el-input>
           </el-form-item>
         </el-col>
 
@@ -33,9 +27,7 @@
     </el-form>
     <div class="btns">
       <el-button icon="Refresh" @click="handleResetClick">重置</el-button>
-      <el-button type="primary" icon="Search" @click="handleQueryClick">
-        查询
-      </el-button>
+      <el-button type="primary" icon="Search" @click="handleQueryClick"> 查询 </el-button>
     </div>
   </div>
 </template>

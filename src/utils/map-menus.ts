@@ -1,3 +1,4 @@
+import { inputNumberEmits } from 'element-plus'
 import type { RouteRecordRaw } from 'vue-router'
 
 function loadLocalRoutes() {
@@ -72,4 +73,37 @@ export function mapPathToCrumb(path: string, userMenu: any) {
     }
   }
   return breadCrumb
+}
+
+export function mapMenuListById(menuList: any[]) {
+  const id: number[] = []
+
+  function recurseGetId(menu: any[]) {
+    for (const item of menu) {
+      if (item.children) {
+        recurseGetId(item.children)
+      } else {
+        id.push(item.id)
+      }
+    }
+  }
+  recurseGetId(menuList)
+  return id
+}
+
+// 从菜单列表获取用户按钮权限
+export function mapMenuToPermissions(menuList: any[]) {
+  const premissions: string[] = []
+
+  function recurseGetPermission(menu: any[]) {
+    for (const item of menu) {
+      if (item.type === 3) {
+        premissions.push(item.permission)
+      } else {
+        recurseGetPermission(item.children ?? [])
+      }
+    }
+  }
+  recurseGetPermission(menuList)
+  return premissions
 }

@@ -11,18 +11,12 @@ export function accountLogin(account: IAccount) {
 
 export function getUserInfoById(id: number) {
   return MyRequest.get({
-    url: '/users/' + id,
-    headers: {
-      Authorization: localCache.getCache('token')
-    }
+    url: '/users/' + id
   })
 }
 
 export function getUserMenuById(id: number) {
   return MyRequest.get({
-    url: `/role/${id}/menu`,
-    headers: {
-      Authorization: localCache.getCache('token')
-    }
+    url: `/role/${id}/menu`
   })
 }

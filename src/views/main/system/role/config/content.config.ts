@@ -41,6 +41,7 @@ const contentConfig = {
       label: '操作',
       width: '150px'
     }
+
     // {
     //   type: 'custom',
     //   label: '上级部门',

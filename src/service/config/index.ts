@@ -1,3 +1,5 @@
+//原接口已过期
+export const BASE_URL = 'http://codercba.com:5000'
 // let BASE_URL = ''
 // if (import.meta.env.PROD) {
 //   BASE_URL = 'http://codercba.com:5000'
