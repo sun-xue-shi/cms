@@ -4,12 +4,9 @@ import type { RouteRecordRaw } from 'vue-router'
 function loadLocalRoutes() {
   const localRoutes: RouteRecordRaw[] = []
   //6.读取router/main中的所有ts文件
-  const files: Record<string, any> = import.meta.glob(
-    '../router/main/**/*.ts',
-    {
-      eager: true
-    }
-  )
+  const files: Record<string, any> = import.meta.glob('../router/main/**/*.ts', {
+    eager: true
+  })
 
   //7.将加载的对象添加到localRoutes
   for (const key in files) {

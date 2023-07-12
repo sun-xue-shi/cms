@@ -1,9 +1,6 @@
 <template>
   <div class="user">
-    <UserSearch
-      @query-click="handleQueryClick"
-      @reset-click="handleResetClick"
-    />
+    <UserSearch @query-click="handleQueryClick" @reset-click="handleResetClick" />
     <UserContent
       ref="contentRef"
       @new-btn-click="handleNewUserClick"

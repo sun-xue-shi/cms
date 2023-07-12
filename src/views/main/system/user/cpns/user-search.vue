@@ -4,35 +4,22 @@
       <el-row :gutter="20">
         <el-col :span="8">
           <el-form-item label="用户名" prop="name">
-            <el-input
-              v-model="searchForm.name"
-              placeholder="请输入用户名"
-            ></el-input>
+            <el-input v-model="searchForm.name" placeholder="请输入用户名"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="真实姓名" prop="realname">
-            <el-input
-              v-model="searchForm.realname"
-              placeholder="请输入真实姓名"
-            ></el-input>
+            <el-input v-model="searchForm.realname" placeholder="请输入真实姓名"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="手机号码" prop="cellphone">
-            <el-input
-              v-model="searchForm.cellphone"
-              placeholder="请输入手机号码"
-            ></el-input>
+            <el-input v-model="searchForm.cellphone" placeholder="请输入手机号码"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="状态" prop="enable">
-            <el-select
-              v-model="searchForm.enable"
-              placeholder="请选择状态"
-              style="width: 100%"
-            >
+            <el-select v-model="searchForm.enable" placeholder="请选择状态" style="width: 100%">
               <el-option label="启用" :value="1" />
               <el-option label="禁用" :value="0" />
             </el-select>
@@ -52,9 +39,7 @@
     </el-form>
     <div class="btns">
       <el-button icon="Refresh" @click="handleResetClick">重置</el-button>
-      <el-button type="primary" icon="Search" @click="handleQueryClick">
-        查询
-      </el-button>
+      <el-button type="primary" icon="Search" @click="handleQueryClick"> 查询 </el-button>
     </div>
   </div>
 </template>

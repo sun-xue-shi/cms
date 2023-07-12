@@ -12,41 +12,23 @@
             <el-input v-model="formData.name" placeholder="请输入用户名" />
           </el-form-item>
           <el-form-item prop="realname" label="真实姓名">
-            <el-input
-              v-model="formData.realname"
-              placeholder="请输入真实姓名"
-            />
+            <el-input v-model="formData.realname" placeholder="请输入真实姓名" />
           </el-form-item>
           <el-form-item v-if="isNewRef" prop="password" label="密码">
-            <el-input
-              v-model="formData.password"
-              placeholder="请输入密码"
-              show-password
-            />
+            <el-input v-model="formData.password" placeholder="请输入密码" show-password />
           </el-form-item>
           <el-form-item prop="cellphone" label="电话号码">
-            <el-input
-              v-model="formData.cellphone"
-              placeholder="请输入电话号码"
-            />
+            <el-input v-model="formData.cellphone" placeholder="请输入电话号码" />
           </el-form-item>
           <el-form-item prop="roleId" label="选择角色">
-            <el-select
-              v-model="formData.roleId"
-              placeholder="请选择角色"
-              style="width: 100%"
-            >
+            <el-select v-model="formData.roleId" placeholder="请选择角色" style="width: 100%">
               <template v-for="item in entireRoles" :key="item.id">
                 <el-option :value="item.id" :label="item.name"></el-option>
               </template>
             </el-select>
           </el-form-item>
           <el-form-item prop="departmentId" label="选择部门">
-            <el-select
-              v-model="formData.departmentId"
-              placeholder="请选择部门"
-              style="width: 100%"
-            >
+            <el-select v-model="formData.departmentId" placeholder="请选择部门" style="width: 100%">
               <template v-for="item in entireDepartments" :key="item.id">
                 <el-option :value="item.id" :label="item.name"> </el-option>
               </template>
@@ -57,9 +39,7 @@
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="centerDialogVisible = false">取消</el-button>
-          <el-button type="primary" @click="handleConfirmClick">
-            确定
-          </el-button>
+          <el-button type="primary" @click="handleConfirmClick"> 确定 </el-button>
         </span>
       </template>
     </el-dialog>
