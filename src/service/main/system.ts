@@ -14,7 +14,10 @@ import MyRequest from '..'
 export function postUserListData(queryInfo?: any) {
   return MyRequest.post({
     url: '/users/list',
-    data: queryInfo
+    data: queryInfo,
+    headers: {
+      'Content-Type': 'application/json'
+    }
   })
 }
 

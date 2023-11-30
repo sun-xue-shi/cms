@@ -40,7 +40,6 @@ const useSystemStore = defineStore('system', {
   actions: {
     async postUserListAction(queryInfo: any) {
       const userListData = await postUserListData(queryInfo)
-
       const { list, totalCount } = userListData.data
       this.userList = list
       this.userTotalCount = totalCount

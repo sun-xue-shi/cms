@@ -14,8 +14,11 @@ class myRequest {
       (config) => {
         config.headers = config.headers || {}
         const token = localCache.getCache('token')
+        config.headers['Authorization'] = token
+        config.headers['Content-Type'] = 'application/json'
         if (token) {
           config.headers['Authorization'] = token
+          config.headers['Content-Type'] = 'application/json'
         }
         return config
       },
@@ -83,3 +86,60 @@ class myRequest {
 }
 
 export default myRequest
+// import axios, { type AxiosInstance } from 'axios'
+
+// class MyRequest {
+//   instance: AxiosInstance
+
+//   constructor(config) {
+//     this.instance = axios.create(config)
+
+//     this.instance.interceptors.request.use(
+//       (config: any) => {
+//         const token = localStorage.getItem('token')
+//         config.headers['Authorization'] = token
+
+//         return
+//       },
+//       (err) => {
+//         return err
+//       }
+//     )
+
+//     this.instance.interceptors.response.use(
+//       (res) => {
+//         return res.data
+//       },
+//       (err) => {
+//         return Promise.reject(new Error(err))
+//       }
+//     )
+//   }
+
+//   request(config) {
+//     return new Promise((resolve, reject) => {
+//       this.instance
+//         .request(config)
+//         .then((res) => {
+//           resolve(res)
+//         })
+//         .catch((err) => {
+//           reject(err)
+//         })
+//     })
+//   }
+
+//   get(config) {
+//     return this.request({ ...config, method: 'GET' })
+//   }
+
+//   delete(config) {
+//     return this.request({ ...config, method: 'DELETE' })
+//   }
+//   post(config) {
+//     return this.request({ ...config, method: 'POST' })
+//   }
+//   patch(config) {
+//     return this.request({ ...config, method: 'PATCH' })
+//   }
+// }

@@ -54,6 +54,7 @@ interface IProps {
 }
 
 const props = defineProps<IProps>()
+
 const initialForm: any = {}
 for (const item of props.searchConfig.formItem) {
   initialForm[item.prop] = ''

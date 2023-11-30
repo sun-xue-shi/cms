@@ -72,6 +72,7 @@ for (const item of props.modalConfig.formItems) {
   initialForm[item.prop] = ''
 }
 const formData = reactive<any>(initialForm)
+
 const isNewRef = ref(true)
 const editData = ref()
 
@@ -94,7 +95,7 @@ function handleConfirmClick() {
   }
 }
 
-//模态框展示和是否有回显数据
+//模态框展示 和 是否有回显数据
 const centerDialogVisible = ref(false)
 function setModalVisible(isNew: boolean = true, itemData?: any) {
   centerDialogVisible.value = true
